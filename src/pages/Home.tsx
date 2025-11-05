@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Carousel from "../components/Carousel";
 
 const BANNERS = [
@@ -63,8 +64,8 @@ export default function Home() {
 
               {/* CTA */}
               <div className="mt-6 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start">
-                <a
-                  href="/contact"
+                <Link
+                  to="/contact"
                   className="
                     inline-flex items-center justify-center
                     px-6 py-3 rounded-xl font-medium text-sm md:text-[0.95rem]
@@ -76,9 +77,9 @@ export default function Home() {
                   "
                 >
                   Demander un devis
-                </a>
-                <a
-                  href="/realisations"
+                </Link>
+                <Link
+                  to="/realisations"
                   className="
                     inline-flex items-center justify-center
                     px-6 py-3 rounded-xl font-medium text-sm md:text-[0.95rem]
@@ -90,7 +91,7 @@ export default function Home() {
                   "
                 >
                   Voir les réalisations
-                </a>
+                </Link>
               </div>
 
               {/* Ligne de confiance */}
