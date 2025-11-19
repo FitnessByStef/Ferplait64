@@ -6,7 +6,20 @@ type Props = {
   height?: string;         // classes tailwind pour la hauteur
   autoPlay?: boolean;
   showArrows?: boolean;
+  /** Alt de chaque image, même ordre que images. Fallback automatique si absent. */
+  alts?: string[];
+  /** Libellé ARIA du carrousel (ex: "Galerie – bannières FerPlait64") */
+  ariaLabel?: string;
 };
+
+function filenameToAlt(path: string): string {
+  const file = path.split("/").pop() ?? path;
+  const base = file.replace(/\.[a-z0-9]+$/i, "");
+  return base
+    .replace(/[-_]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim() || "Image";
+}
 
 export default function Carousel({
   images,
@@ -14,6 +27,8 @@ export default function Carousel({
   height = "h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px]",
   autoPlay = true,
   showArrows = true,
+  alts,
+  ariaLabel = "Carrousel d’images",
 }: Props) {
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
   const [index, setIndex] = useState(0);
@@ -28,12 +43,10 @@ export default function Carousel({
 
   useEffect(() => {
     if (!autoPlay || safeImages.length <= 1) return;
-
-    const id = setInterval(() => {
+    const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % safeImages.length);
     }, intervalMs);
-
-    return () => clearInterval(id);
+    return () => window.clearInterval(id);
   }, [safeImages, intervalMs, autoPlay]);
 
   if (safeImages.length === 0) {
@@ -43,6 +56,9 @@ export default function Carousel({
           relative ${height}
           bg-[#101014] rounded-3xl border border-white/5
         `}
+        role="region"
+        aria-label={ariaLabel}
+        aria-live="off"
       />
     );
   }
@@ -56,19 +72,30 @@ export default function Carousel({
         shadow-[0_18px_45px_rgba(0,0,0,0.35)]
         border border-white/5
       `}
+      role="region"
+      aria-label={ariaLabel}
+      aria-roledescription="carrousel"
+      aria-live="off"
     >
-      {safeImages.map((src, i) => (
-        <img
-          key={src}
-          src={src}
-          alt={`bannière ${i + 1}`}
-          className={[
-            "absolute inset-0 w-full h-full object-contain transition-opacity duration-700 ease-in-out bg-black/5",
-            i === index ? "opacity-100" : "opacity-0",
-          ].join(" ")}
-          loading="eager"
-        />
-      ))}
+      {safeImages.map((src, i) => {
+        const alt =
+          (alts && alts[i] && alts[i]!.trim()) ? alts[i]! : filenameToAlt(src);
+        return (
+          <img
+            key={`${src}-${i}`}
+            src={src}
+            alt={alt}
+            className={[
+              "absolute inset-0 w-full h-full object-contain transition-opacity duration-700 ease-in-out bg-black/5",
+              i === index ? "opacity-100" : "opacity-0",
+            ].join(" ")}
+            // Perf : seule la 1ère image est eager (LCP), les suivantes lazy
+            loading={i === 0 ? "eager" : "lazy"}
+            // Evite les CLS sur certains navigateurs
+            decoding="async"
+          />
+        );
+      })}
 
       {/* Flèches de navigation (desktop / tablette surtout) */}
       {showArrows && safeImages.length > 1 && (
@@ -120,8 +147,9 @@ export default function Carousel({
               h-2.5 rounded-full transition-all
               ${i === index ? "w-6 bg-white/90" : "w-2.5 bg-white/25"}
             `}
-            aria-label={`slide ${i + 1}`}
+            aria-label={`Aller au visuel ${i + 1} sur ${safeImages.length}`}
             type="button"
+            aria-current={i === index ? "true" : undefined}
           />
         ))}
       </div>
