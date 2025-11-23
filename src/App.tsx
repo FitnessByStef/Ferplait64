@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -8,9 +8,8 @@ import Contact from "./pages/Contact";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Header />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/realisations" element={<Realisations />} />
@@ -20,6 +19,6 @@ export default function App() {
 
       <Footer />
 
-    </BrowserRouter>
+    </HashRouter>
   );
 }
