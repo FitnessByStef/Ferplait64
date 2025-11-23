@@ -32,7 +32,7 @@ const jsonLd = {
   "@type": "LocalBusiness",
   "@id": `${SITE_URL}#company`,
   name: BRAND,
-  image: `${SITE_URL}/assets/Logo-FerPlait64.png`,
+  image: `${SITE_URL}/og-ferplait64.png`,
   url: SITE_URL,
   telephone: PHONE,
   address: {
@@ -101,7 +101,7 @@ export default function Home() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={`${SITE_URL}/assets/og-cover.jpg`} />
+        <meta name="twitter:image" content={`${SITE_URL}/og-ferplait64.png`} />
 
         {/* Perf : précharger la première image du carrousel (LCP) */}
         <link rel="preload" as="image" href={BANNERS[0]} />

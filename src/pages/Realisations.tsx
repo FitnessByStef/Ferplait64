@@ -123,7 +123,7 @@ export default function Realisations() {
         aria-labelledby="realisations-title"
       >
         {/* texture métal */}
-        <div className="absolute inset-0 bg-[url('/assets/MetailDesign2.png')] bg-cover bg-center opacity-[0.03]" />
+        <div className="absolute inset-0 bg-[url('/assets/MetalDesign2.png')] bg-cover bg-center opacity-[0.03]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_70%)]" />
 
         <div className="relative max-w-6xl mx-auto px-4">
