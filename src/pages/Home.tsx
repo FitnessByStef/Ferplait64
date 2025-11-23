@@ -6,9 +6,9 @@ const SITE_URL = "https://ferplait64.fr";
 const BRAND = "FerPlait64";
 const PHONE = "+33 6 47 80 84 33"; 
 const ADDRESS = {
-  street: "Chemin du Stade",
-  locality: "Thèze",
-  postalCode: "64450",
+  street: "Impasse des vignes",
+  locality: "Lacq",
+  postalCode: "64170",
   region: "Nouvelle-Aquitaine",
   country: "FR",
 };
